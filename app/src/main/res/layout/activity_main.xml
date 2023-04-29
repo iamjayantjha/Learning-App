@@ -99,9 +99,41 @@
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"/>-->
 
+<!--    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:iconifiedByDefault="false"/>
+
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/searchView"/>-->
+
+    <ImageSwitcher
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:src="@mipmap/ic_launcher"/>
+
+    <Button
+        android:id="@+id/changeImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Next"
+        android:textSize="15sp"/>
+
+   <EditText
+    android:id="@+id/userInput"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"/>
 
 </RelativeLayout>
