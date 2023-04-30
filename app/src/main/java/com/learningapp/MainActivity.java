@@ -154,8 +154,8 @@ public class MainActivity extends AppCompatActivity {
         //MainActivity.this.finish();
 
         changeImg.setOnClickListener(v -> {
-           /* Toast.makeText(getApplicationContext(),"Service Started",Toast.LENGTH_SHORT).show();
-            Intent service = new Intent(MainActivity.this, MyService.class);
+            //Toast.makeText(getApplicationContext(),"Service Started",Toast.LENGTH_SHORT).show();
+           /* Intent service = new Intent(MainActivity.this, MyService.class);
             startService(service);*/
             String id = "1";
             String name = "Jayant";
