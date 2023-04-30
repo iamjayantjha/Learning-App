@@ -3,7 +3,10 @@ package com.learningapp;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     ImageSwitcher image;
     private static final int[] IMAGES ={R.drawable.send_ic,R.drawable.person_ic,R.mipmap.ic_launcher};
     int position = -1;
+    DataBaseHelper db;
 
 
     //SearchView searchView;
@@ -53,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         image = findViewById(R.id.image);
         changeImg = findViewById(R.id.changeImg);
         userInput = findViewById(R.id.userInput);
+        db = new DataBaseHelper(this);
         //listView = findViewById(R.id.list);
       //  searchView = findViewById(R.id.searchView);
        // videoView = findViewById(R.id.videoView);
@@ -116,10 +121,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        changeImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              /*  if (position<IMAGES.length-1){
+        /*  if (position<IMAGES.length-1){
                     ++position;
                     image.setBackgroundResource(IMAGES[position]);
                 }
@@ -130,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent second = new Intent(MainActivity.this,SecondActivity.class);
                 second.putExtra("userText",text);
                 startActivity(second);*/
-                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                /*AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
                 dialog.setCancelable(false);
                 dialog.setTitle("Learning App");
                 dialog.setMessage("How was the class today");
@@ -142,9 +144,27 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Bad", Toast.LENGTH_SHORT).show();
                     dialog12.dismiss();
                 });
-                dialog.create().show();
-                //MainActivity.this.finish();
+                dialog.create().show();*/
+                /*NotificationCompat.Builder notification = new NotificationCompat.Builder(MainActivity.this,"MyChannel");
+                notification.setSmallIcon(R.mipmap.ic_launcher);
+                notification.setContentTitle("Learning App");
+                notification.setContentText("Welcome to Learning App");
+                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.notify(1,notification.build());*/
+        //MainActivity.this.finish();
 
+        changeImg.setOnClickListener(v -> {
+           /* Toast.makeText(getApplicationContext(),"Service Started",Toast.LENGTH_SHORT).show();
+            Intent service = new Intent(MainActivity.this, MyService.class);
+            startService(service);*/
+            String id = "1";
+            String name = "Jayant";
+            String phone_number = "9871982780";
+            boolean result = db.insertData(id,name,phone_number);
+            if (result){
+                Toast.makeText(getApplicationContext(),"Data Inserted Successfully",Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(getApplicationContext(),"Data Insertion Failed",Toast.LENGTH_SHORT).show();
             }
         });
 
