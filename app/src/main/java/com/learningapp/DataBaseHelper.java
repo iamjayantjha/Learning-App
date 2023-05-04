@@ -2,6 +2,7 @@ package com.learningapp;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -38,4 +39,38 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         long result = db.insert(TABLE_NAME,null,contentValues);
         return result != -1;
     }
+
+    public Cursor readData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT * from "+TABLE_NAME,null);
+        return res;
+    }
+
+    public Cursor readData(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] projection = {COL_1,COL_2,COL_3};
+        String selection = COL_1+ " LIKE ?";
+        String[] selection_args = {id};
+        Cursor res = db.query(TABLE_NAME,projection,selection,selection_args,null,null,null);
+        return res;
+    }
+    public boolean updateData(String id,String name,String phone_number){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_1,id);
+        contentValues.put(COL_2,name);
+        contentValues.put(COL_3,phone_number);
+        /*long result = db.insert(TABLE_NAME,null,contentValues);
+        return result != -1;*/
+        //String[] selection_args = {id};
+        long result = db.update(TABLE_NAME,contentValues,"ID =?",new String[]{id});
+        return result != -1;
+    }
+
+    public boolean deleteData(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete(TABLE_NAME,"ID =?",new String[]{id});
+        return result !=1;
+    }
+
 }
