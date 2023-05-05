@@ -1,5 +1,7 @@
 package com.learningapp;
 
+import android.widget.ArrayAdapter;
+
 public class Comment {
     //listView = findViewById(R.id.list);
     //  searchView = findViewById(R.id.searchView);
@@ -114,4 +116,215 @@ public class Comment {
     //Read
     //Update
     //Delete
+/*
+
+//    TextView text;
+    Button changeImg;
+     EditText userInput,userName;
+//    TextInputEditText editText;
+   // Spinner spinner;
+
+    //WebView webView;
+    //VideoView videoView;
+    //ListView listView;;
+    TextView text;
+    ImageSwitcher image;
+ /*   private static final int[] IMAGES ={R.drawable.send_ic,R.drawable.person_ic,R.mipmap.ic_launcher};
+    int position = -1;
+    DataBaseHelper db;
+    image = findViewById(R.id.image);
+    changeImg = findViewById(R.id.changeImg);
+    userInput = findViewById(R.id.userInput);
+    private Uri getVideoPath(int video) {
+        return Uri.parse("android.resource://" + getPackageName() + "/" + video);
+        //android.resource://com.learningapp/R.raw.video
+    }
+    db = new DataBaseHelper(this);
+    //SearchView searchView;
+
+    userName = findViewById(R.id.userName);
+    text = findViewById(R.id.text);
+    String[] countries = {"India", "USA", "China", "Japan", "Other"};
+    ArrayAdapter<String> adapter = new  ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,countries);
+
+        image.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                ImageView image2 = new ImageView(getApplicationContext());
+                image2.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                image2.setLayoutParams(new ImageSwitcher.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT));
+                return image2;
+            }
+        });*/
+
+    /*
+      <ImageSwitcher
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:src="@mipmap/ic_launcher"/>
+
+    <Button
+        android:id="@+id/changeImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Next"
+        android:textSize="15sp"/>
+
+   <EditText
+    android:id="@+id/userInput"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:inputType="number"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"/>
+
+    <EditText
+        android:id="@+id/userName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/userInput"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_below="@id/changeImg"
+        android:textSize="20sp"/>
+
+    * */
+    /* changeImg.setOnClickListener(v -> {
+     *//* SharedPreferences preferences = this.getSharedPreferences("PREFS",Context.MODE_PRIVATE);
+     *//**//*SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("name","Akshat");
+            editor.apply();*//**//*
+            preferences.edit().remove("name").apply();
+            Intent second = new Intent(MainActivity.this,SecondActivity.class);
+            startActivity(second);*//*
+        });*/
+
+    /*String id = userInput.getText().toString().trim();
+            boolean result = db.deleteData(id);
+            Toast.makeText(getApplicationContext(),"Data Deleted", Toast.LENGTH_SHORT).show();*/
+
+    /*
+
+    XML code
+    <!-- <Button
+        android:id="@+id/saveBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Login"
+        android:textSize="15sp"
+        style="@style/Widget.MaterialComponents.Button.TextButton"/>
+
+    &lt;!&ndash;<EditText
+        android:id="@+id/userInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>&ndash;&gt;
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:layout_below="@id/image"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textField2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:layout_below="@id/textField"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editText2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:src="@mipmap/ic_launcher"/>
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="20sp"/>-->
+
+
+<!--    <Spinner-->
+<!--        android:id="@+id/spinner"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"/>-->
+
+    <!--<WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>-->
+
+<!--    <VideoView-->
+<!--        android:id="@+id/videoView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"/>-->
+
+<!--    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:iconifiedByDefault="false"/>
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/searchView"/>-->
+    * */
 }

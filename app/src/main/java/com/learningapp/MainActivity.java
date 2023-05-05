@@ -1,92 +1,74 @@
 package com.learningapp;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import android.app.NotificationManager;
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Bundle;
-import android.text.InputType;
-import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageSwitcher;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.MediaController;
-import android.widget.SearchView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.VideoView;
-import android.widget.ViewSwitcher;
+import androidx.fragment.app.Fragment;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputEditText;
+import android.os.Bundle;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+
+import com.learningapp.Home.HomeFragment;
+import com.learningapp.Profile.ProfileFragment;
+import com.learningapp.Reels.ReelsFragment;
+import com.learningapp.Search.SearchFragment;
 
 public class MainActivity extends AppCompatActivity {
-//    TextView text;
-    Button changeImg;
-     EditText userInput,userName;
-//    TextInputEditText editText;
-   // Spinner spinner;
-
-    //WebView webView;
-    //VideoView videoView;
-    //ListView listView;;
-    TextView text;
-    ImageSwitcher image;
-    private static final int[] IMAGES ={R.drawable.send_ic,R.drawable.person_ic,R.mipmap.ic_launcher};
-    int position = -1;
-    DataBaseHelper db;
-
-
-    //SearchView searchView;
+    ImageView home,search,add,reels,profile;
+    FrameLayout fragmentContainer;
+    Fragment selectedFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        image = findViewById(R.id.image);
-        changeImg = findViewById(R.id.changeImg);
-        userInput = findViewById(R.id.userInput);
-        db = new DataBaseHelper(this);
-        userName = findViewById(R.id.userName);
-        text = findViewById(R.id.text);
-        String[] countries = {"India", "USA", "China", "Japan", "Other"};
-        ArrayAdapter<String> adapter = new  ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,countries);
+        home = findViewById(R.id.home);
+        search = findViewById(R.id.search);
+        add = findViewById(R.id.add);
+        reels = findViewById(R.id.reels);
+        profile = findViewById(R.id.profile);
+        fragmentContainer = findViewById(R.id.fragmentContainer);
 
-        image.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                ImageView image2 = new ImageView(getApplicationContext());
-                image2.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                image2.setLayoutParams(new ImageSwitcher.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT));
-                return image2;
-            }
-        });
-        changeImg.setOnClickListener(v -> {
-            String id = userInput.getText().toString().trim();
-            boolean result = db.deleteData(id);
-            Toast.makeText(getApplicationContext(),"Data Deleted", Toast.LENGTH_SHORT).show();
+        home.setOnClickListener(v -> {
+            selectedFragment = new HomeFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
+            home.setImageResource(R.drawable.ic_home_filled);
+            search.setImageResource(R.drawable.ic_search_outlined);
+            reels.setImageResource(R.drawable.ic_reels_outlined);
+            profile.setImageResource(R.drawable.ic_profile_outline);
         });
 
+        search.setOnClickListener(v -> {
+            selectedFragment = new SearchFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
+            home.setImageResource(R.drawable.ic_home_outlined);
+            search.setImageResource(R.drawable.ic_search_filled);
+            reels.setImageResource(R.drawable.ic_reels_outlined);
+            profile.setImageResource(R.drawable.ic_profile_outline);
+        });
 
+        reels.setOnClickListener(v -> {
+            selectedFragment = new ReelsFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
+            home.setImageResource(R.drawable.ic_home_outlined);
+            search.setImageResource(R.drawable.ic_search_outlined);
+            reels.setImageResource(R.drawable.ic_reels_filled);
+            profile.setImageResource(R.drawable.ic_profile_outline);
+        });
 
-
-    }
-
-    private Uri getVideoPath(int video) {
-        return Uri.parse("android.resource://" + getPackageName() + "/" + video);
-        //android.resource://com.learningapp/R.raw.video
+        profile.setOnClickListener(v -> {
+            selectedFragment = new ProfileFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
+            home.setImageResource(R.drawable.ic_home_outlined);
+            search.setImageResource(R.drawable.ic_search_outlined);
+            reels.setImageResource(R.drawable.ic_reels_outlined);
+            profile.setImageResource(R.drawable.ic_profile_filled);
+        });
+        if (selectedFragment == null){
+            selectedFragment = new HomeFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
+            home.setImageResource(R.drawable.ic_home_filled);
+        }else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
+        }
     }
 }
