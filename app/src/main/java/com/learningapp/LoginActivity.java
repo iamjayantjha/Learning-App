@@ -3,6 +3,7 @@ package com.learningapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -26,7 +27,8 @@ public class LoginActivity extends AppCompatActivity {
     MaterialCardView loginBtn;
     String userEmail, userPassword;
 
-    TextView signUp;
+    TextView signUp,forgotPassword;
+    ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +36,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         firebaseAuth = FirebaseAuth.getInstance();
         currentUser = firebaseAuth.getCurrentUser();
+        forgotPassword = findViewById(R.id.forgotPassword);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         loginBtn = findViewById(R.id.loginBtn);
         signUp = findViewById(R.id.signUp);
+        pd = new ProgressDialog(this);
         loginBtn.setOnClickListener(v -> {
             userEmail = email.getText().toString().trim();
             userPassword = password.getText().toString().trim();
@@ -45,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
                 email.setError("Email cannot be blank");
                 password.setError("Password cannot be blank");
             }else {
+                pd.setMessage("Logging in...");
+                pd.show();
                signIn(userEmail,userPassword);
                loginBtn.setEnabled(false);
                loginBtn.setCardBackgroundColor(getResources().getColor(R.color.primary_disabled));
@@ -53,6 +59,24 @@ public class LoginActivity extends AppCompatActivity {
         signUp.setOnClickListener(v -> {
             Intent register = new Intent(LoginActivity.this,RegisterActivity.class);
             startActivity(register);
+        });
+        forgotPassword.setOnClickListener(v -> {
+            userEmail = email.getText().toString().trim();
+            if (TextUtils.isEmpty(userEmail)) {
+                email.setError("Please enter the email for resetting password");
+            }else {
+                pd.setMessage("Sending reset link...");
+                pd.show();
+                firebaseAuth.sendPasswordResetEmail(userEmail).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        pd.dismiss();
+                        Toast.makeText(getApplicationContext(),"Reset link sent to your email",Toast.LENGTH_SHORT).show();
+                    }else {
+                        pd.dismiss();
+                        Toast.makeText(getApplicationContext(),"Error sending reset link",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         });
     }
 
@@ -68,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                 loginBtn.setEnabled(true);
                 loginBtn.setCardBackgroundColor(getResources().getColor(R.color.primary));
             }
+            pd.dismiss();
         });
     }
 }
