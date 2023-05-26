@@ -61,7 +61,7 @@
                 android:src="@drawable/ic_reels_outlined"
                 android:layout_height="40dp"/>
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="35dp"

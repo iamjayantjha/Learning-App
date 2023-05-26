@@ -67,10 +67,12 @@ public class RegisterActivity extends AppCompatActivity {
             if (task.isSuccessful()){
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseAuth.getCurrentUser().getUid());
                 HashMap<String,String> hashMap = new HashMap<>();
+                hashMap.put("id",firebaseAuth.getCurrentUser().getUid());
                 hashMap.put("name",userFullName);
                 hashMap.put("email",userEmail);
                 hashMap.put("username",userName);
-                hashMap.put("password",userPassword);
+                hashMap.put("bio","");
+                hashMap.put("image_url","https://firebasestorage.googleapis.com/v0/b/learning-app-41786.appspot.com/o/profile_pic%2Fuser_img.png?alt=media&token=2c8e3048-1598-42d1-a202-8ef09a1cf291");
                 reference.setValue(hashMap).addOnCompleteListener(task1 -> {
                     DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference().child("Username").child(userName);
                     HashMap<String,String> hashMap1 = new HashMap<>();

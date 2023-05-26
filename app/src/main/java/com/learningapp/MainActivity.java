@@ -1,23 +1,36 @@
 package com.learningapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.learningapp.Home.HomeFragment;
+import com.learningapp.Modal.Users;
 import com.learningapp.Profile.ProfileFragment;
 import com.learningapp.Reels.ReelsFragment;
 import com.learningapp.Search.SearchFragment;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity {
-    ImageView home,search,add,reels,profile;
+    ImageView home,search,add,reels;
+    CircleImageView profile;
     FrameLayout fragmentContainer;
     Fragment selectedFragment = null;
     FirebaseAuth userAuth;
@@ -41,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
             home.setImageResource(R.drawable.ic_home_filled);
             search.setImageResource(R.drawable.ic_search_outlined);
             reels.setImageResource(R.drawable.ic_reels_outlined);
-            profile.setImageResource(R.drawable.ic_profile_outline);
         });
 
         search.setOnClickListener(v -> {
@@ -50,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
             home.setImageResource(R.drawable.ic_home_outlined);
             search.setImageResource(R.drawable.ic_search_filled);
             reels.setImageResource(R.drawable.ic_reels_outlined);
-            profile.setImageResource(R.drawable.ic_profile_outline);
         });
 
         reels.setOnClickListener(v -> {
@@ -59,17 +70,26 @@ public class MainActivity extends AppCompatActivity {
             home.setImageResource(R.drawable.ic_home_outlined);
             search.setImageResource(R.drawable.ic_search_outlined);
             reels.setImageResource(R.drawable.ic_reels_filled);
-            profile.setImageResource(R.drawable.ic_profile_outline);
         });
 
         profile.setOnClickListener(v -> {
             selectedFragment = new ProfileFragment();
+            SharedPreferences sharedPreferences = this.getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("profileid", currentUser.getUid());
+            editor.apply();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
             home.setImageResource(R.drawable.ic_home_outlined);
             search.setImageResource(R.drawable.ic_search_outlined);
             reels.setImageResource(R.drawable.ic_reels_outlined);
-            profile.setImageResource(R.drawable.ic_profile_filled);
         });
+
+        add.setOnClickListener(v -> {
+            Intent post = new Intent(MainActivity.this, PostActivity.class);
+            startActivity(post);
+            overridePendingTransition(R.anim.no_animation,R.anim.slide_up);
+        });
+
         if (selectedFragment == null){
             selectedFragment = new HomeFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
@@ -86,6 +106,22 @@ public class MainActivity extends AppCompatActivity {
             Intent login = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(login);
             MainActivity.this.finish();
+        }else{
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid());
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Users user = snapshot.getValue(Users.class);
+                    if (user != null) {
+                        Glide.with(MainActivity.this).load(user.getImage_url()).into(profile);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
     }
 }

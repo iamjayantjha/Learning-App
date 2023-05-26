@@ -5,12 +5,37 @@
     android:layout_height="match_parent"
     tools:context=".Search.SearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
+
+    <RelativeLayout
+        android:id="@+id/searchBar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:layout_centerInParent="true"
-        android:text="Search" />
+        android:background="@drawable/edit_text_bg"
+        android:layout_margin="15dp">
+
+        <ImageView
+            android:id="@+id/search_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_search_outlined"/>
+
+        <EditText
+            android:id="@+id/search"
+            android:layout_toEndOf="@id/search_icon"
+            android:layout_width="match_parent"
+            android:background="@drawable/transparent_bg"
+            android:hint="Search"
+            android:padding="8dp"
+            android:layout_height="40dp"/>
+
+    </RelativeLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/searchBar"
+        android:id="@+id/recyclerView"/>
 
 </RelativeLayout>
