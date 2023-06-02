@@ -48,55 +48,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentContainer = findViewById(R.id.fragmentContainer);
         userAuth = FirebaseAuth.getInstance();
         currentUser = userAuth.getCurrentUser();
-        home.setOnClickListener(v -> {
-            selectedFragment = new HomeFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
-            home.setImageResource(R.drawable.ic_home_filled);
-            search.setImageResource(R.drawable.ic_search_outlined);
-            reels.setImageResource(R.drawable.ic_reels_outlined);
-        });
-
-        search.setOnClickListener(v -> {
-            selectedFragment = new SearchFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
-            home.setImageResource(R.drawable.ic_home_outlined);
-            search.setImageResource(R.drawable.ic_search_filled);
-            reels.setImageResource(R.drawable.ic_reels_outlined);
-        });
-
-        reels.setOnClickListener(v -> {
-            selectedFragment = new ReelsFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
-            home.setImageResource(R.drawable.ic_home_outlined);
-            search.setImageResource(R.drawable.ic_search_outlined);
-            reels.setImageResource(R.drawable.ic_reels_filled);
-        });
-
-        profile.setOnClickListener(v -> {
-            selectedFragment = new ProfileFragment();
-            SharedPreferences sharedPreferences = this.getSharedPreferences("PREFS", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("profileid", currentUser.getUid());
-            editor.apply();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
-            home.setImageResource(R.drawable.ic_home_outlined);
-            search.setImageResource(R.drawable.ic_search_outlined);
-            reels.setImageResource(R.drawable.ic_reels_outlined);
-        });
-
-        add.setOnClickListener(v -> {
-            Intent post = new Intent(MainActivity.this, PostActivity.class);
-            startActivity(post);
-            overridePendingTransition(R.anim.no_animation,R.anim.slide_up);
-        });
-
-        if (selectedFragment == null){
-            selectedFragment = new HomeFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
-            home.setImageResource(R.drawable.ic_home_filled);
-        }else {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
-        }
     }
 
     @Override
@@ -107,6 +58,55 @@ public class MainActivity extends AppCompatActivity {
             startActivity(login);
             MainActivity.this.finish();
         }else{
+            home.setOnClickListener(v -> {
+                selectedFragment = new HomeFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
+                home.setImageResource(R.drawable.ic_home_filled);
+                search.setImageResource(R.drawable.ic_search_outlined);
+                reels.setImageResource(R.drawable.ic_reels_outlined);
+            });
+
+            search.setOnClickListener(v -> {
+                selectedFragment = new SearchFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
+                home.setImageResource(R.drawable.ic_home_outlined);
+                search.setImageResource(R.drawable.ic_search_filled);
+                reels.setImageResource(R.drawable.ic_reels_outlined);
+            });
+
+            reels.setOnClickListener(v -> {
+                selectedFragment = new ReelsFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
+                home.setImageResource(R.drawable.ic_home_outlined);
+                search.setImageResource(R.drawable.ic_search_outlined);
+                reels.setImageResource(R.drawable.ic_reels_filled);
+            });
+
+            profile.setOnClickListener(v -> {
+                selectedFragment = new ProfileFragment();
+                SharedPreferences sharedPreferences = this.getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("profileid", currentUser.getUid());
+                editor.apply();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
+                home.setImageResource(R.drawable.ic_home_outlined);
+                search.setImageResource(R.drawable.ic_search_outlined);
+                reels.setImageResource(R.drawable.ic_reels_outlined);
+            });
+
+            add.setOnClickListener(v -> {
+                Intent post = new Intent(MainActivity.this, PostActivity.class);
+                startActivity(post);
+                overridePendingTransition(R.anim.no_animation,R.anim.slide_up);
+            });
+
+            if (selectedFragment == null){
+                selectedFragment = new HomeFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
+                home.setImageResource(R.drawable.ic_home_filled);
+            }else {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,selectedFragment).commit();
+            }
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid());
             reference.addValueEventListener(new ValueEventListener() {
                 @Override

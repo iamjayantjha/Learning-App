@@ -92,6 +92,7 @@ public class PostActivity extends AppCompatActivity {
                         hashMap.put("postId",postId);
                         hashMap.put("postImage",myUrl);
                         hashMap.put("caption",caption.getText().toString());
+                        hashMap.put("date","");
                         hashMap.put("publisher", Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid());
                         hashMap.put("location",location.getText().toString());
                         assert postId != null;

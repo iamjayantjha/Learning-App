@@ -5,12 +5,43 @@
     android:layout_height="match_parent"
     tools:context=".Home.HomeFragment">
 
+    <RelativeLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
+
 
     <ImageView
         android:layout_width="120dp"
         android:layout_height="60dp"
-        android:layout_marginStart="15dp"
         android:src="@drawable/logo"/>
 
+
+        <ImageView
+            android:id="@+id/dm"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/dm"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"/>
+
+        <ImageView
+            android:id="@+id/post"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_add_filled"
+            android:layout_toStartOf="@id/dm"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="15dp"/>
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/topBar"
+        android:id="@+id/recyclerView"/>
 
 </RelativeLayout>
