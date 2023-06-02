@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.learningapp.Adapter.CommentsAdapter;
+import com.learningapp.Home.HomeFragment;
 import com.learningapp.Modal.Comments;
 import com.learningapp.Modal.Users;
 import com.learningapp.R;
@@ -44,6 +46,7 @@ public class CommentFragment extends Fragment {
     CommentsAdapter commentsAdapter;
     String postId;
     FirebaseAuth firebaseAuth;
+    ImageView back;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +54,7 @@ public class CommentFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_comment, container, false);
         SharedPreferences preferences = requireActivity().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
         postId = preferences.getString("postId", "");
+        back = view.findViewById(R.id.back);
         firebaseAuth = FirebaseAuth.getInstance();
         recyclerView = view.findViewById(R.id.recyclerView);
         profilePicture = view.findViewById(R.id.profilePicture);
@@ -68,6 +72,9 @@ public class CommentFragment extends Fragment {
             } else {
                 addComment();
             }
+        });
+        back.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HomeFragment()).commit();
         });
         getUserInfo();
         readComments();
