@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(main);
                 LoginActivity.this.finish();
             }else {
-                Toast.makeText(getApplicationContext(),"Login Unsuccessful",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),""+task.getResult(),Toast.LENGTH_SHORT).show();
                 loginBtn.setEnabled(true);
                 loginBtn.setCardBackgroundColor(getResources().getColor(R.color.primary));
             }

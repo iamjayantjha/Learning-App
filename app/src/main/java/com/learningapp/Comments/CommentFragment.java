@@ -82,7 +82,7 @@ public class CommentFragment extends Fragment {
     }
 
     private void addComment() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Comments").child(postId);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Comments").child(postId).child(firebaseAuth.getCurrentUser().getUid());
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("comment", comment.getText().toString().trim());
         hashMap.put("publisher", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
@@ -113,9 +113,15 @@ public class CommentFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 commentsList.clear();
-               if (snapshot.exists()){
+               /*if (snapshot.exists()){
                    Comments comments = snapshot.getValue(Comments.class);
                    commentsList.add(comments);
+               }*/
+               if (snapshot.exists()) {
+                   for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                       Comments comments = dataSnapshot.getValue(Comments.class);
+                       commentsList.add(comments);
+                   }
                }
                 commentsAdapter.notifyDataSetChanged();
             }

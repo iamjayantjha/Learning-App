@@ -1,5 +1,6 @@
 package com.learningapp.Home;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.learningapp.Adapter.PostAdapter;
 import com.learningapp.Modal.Posts;
+import com.learningapp.PostActivity;
 import com.learningapp.R;
 
 import java.util.ArrayList;
@@ -32,12 +35,14 @@ public class HomeFragment extends Fragment {
     private PostAdapter postAdapter;
     private List<Posts> postsList;
     private List<String> followingList;
+    private ImageView post;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView=view.findViewById(R.id.recyclerView);
+        post=view.findViewById(R.id.post);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
@@ -46,6 +51,7 @@ public class HomeFragment extends Fragment {
         postAdapter=new PostAdapter(getContext(),postsList);
         recyclerView.setAdapter(postAdapter);
         isFollowing();
+        post.setOnClickListener(v -> startActivity(new Intent(getContext(), PostActivity.class)));
         return view;
     }
 
@@ -60,6 +66,7 @@ public class HomeFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     followingList.add(dataSnapshot.getKey());
                 }
+                followingList.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 readPosts();
             }
 

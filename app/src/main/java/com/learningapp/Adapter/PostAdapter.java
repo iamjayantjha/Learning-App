@@ -2,7 +2,9 @@ package com.learningapp.Adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -66,6 +68,22 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             holder.location.setVisibility(View.VISIBLE);
             holder.location.setText(post.getLocation());
         }
+
+        holder.userPost.setOnTouchListener(new View.OnTouchListener() {
+            private GestureDetector gestureDetector = new GestureDetector(mContext, new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onDoubleTap(MotionEvent e) {
+                    FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getPostId()).child(firebaseUser.getUid()).setValue(true);
+                    holder.like.setImageResource(R.drawable.heart_filled);
+                    return super.onDoubleTap(e);
+                }
+            });
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return true;
+            }
+        });
 
         publisherInfo(holder.userProfilePicture, holder.userName, post.getPublisher());
         isLiked(post.getPostId(), holder.like);
@@ -191,20 +209,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         });
     }
     private void getComments(String postid, final TextView commentsCount) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Comments");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Comments").child(postid);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int i = 0;
-                if (snapshot.hasChild(postid)) {
-                    i++;
-                }
-                if (i >= 2) {
-                    commentsCount.setVisibility(View.VISIBLE);
-                    commentsCount.setText("View all " + i + " comments");
-                } else if (i == 1) {
-                    commentsCount.setVisibility(View.VISIBLE);
-                    commentsCount.setText("View " + i + " comment");
+                if (snapshot.getChildrenCount() == 1){
+                    commentsCount.setText("View " + snapshot.getChildrenCount() + " comment");
+                } else if (snapshot.getChildrenCount() > 1){
+                    commentsCount.setText("View all " + snapshot.getChildrenCount() + " comments");
                 } else {
                     commentsCount.setVisibility(View.GONE);
                 }
