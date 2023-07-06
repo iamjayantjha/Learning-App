@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.learningapp.Adapter.PostGridAdapter;
 import com.learningapp.EditProfileActivity;
 import com.learningapp.LoginActivity;
+import com.learningapp.MessageActivity;
 import com.learningapp.Modal.PostGrid;
 import com.learningapp.Modal.Posts;
 import com.learningapp.Modal.Users;
@@ -46,7 +47,7 @@ public class ProfileFragment extends Fragment {
     TextView userName,name,bio,edit_profile,postCount,followersCount,followingCount,notPosted;
     CircleImageView userProfilePicture;
 
-    MaterialCardView editProfile;
+    MaterialCardView editProfile,dm;
     GridView postGrid;
     ArrayList<PostGrid> postGrids;
 
@@ -61,6 +62,7 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         postGrids = new ArrayList<>();
         notPosted = view.findViewById(R.id.notPosted);
+        dm = view.findViewById(R.id.dm);
         postGrid = view.findViewById(R.id.postGrid);
         postCount = view.findViewById(R.id.postCount);
         followersCount = view.findViewById(R.id.followersCount);
@@ -83,6 +85,12 @@ public class ProfileFragment extends Fragment {
             startActivity(login);
             requireActivity().finish();
         });
+        dm.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), MessageActivity.class);
+            intent.putExtra("userid",userId);
+            startActivity(intent);
+            ProfileFragment.this.requireActivity().finish();
+        });
         editProfile.setOnClickListener(v -> {
             if (userId.equals(firebaseUser.getUid())){
                 Intent intent = new Intent(getActivity(), EditProfileActivity.class);
@@ -94,12 +102,14 @@ public class ProfileFragment extends Fragment {
                     edit_profile.setText("Following");
                     edit_profile.setTextColor(getResources().getColor(R.color.black));
                     editProfile.setCardBackgroundColor(getResources().getColor(R.color.text_disabled));
+                    dm.setVisibility(View.VISIBLE);
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("follow").child(firebaseUser.getUid()).child("following").child(userId).removeValue();
                     FirebaseDatabase.getInstance().getReference().child("follow").child(userId).child("followers").child(firebaseUser.getUid()).removeValue();
                     edit_profile.setText("Follow");
                     edit_profile.setTextColor(getResources().getColor(R.color.white));
                     editProfile.setCardBackgroundColor(getResources().getColor(R.color.primary));
+                    dm.setVisibility(View.GONE);
                 }
             }
         });
@@ -185,10 +195,12 @@ public class ProfileFragment extends Fragment {
                     edit_profile.setText("Following");
                     edit_profile.setTextColor(getResources().getColor(R.color.black));
                     editProfile.setCardBackgroundColor(getResources().getColor(R.color.text_disabled));
+                    dm.setVisibility(View.VISIBLE);
                 } else {
                     edit_profile.setText("Follow");
                     edit_profile.setTextColor(getResources().getColor(R.color.white));
                     editProfile.setCardBackgroundColor(getResources().getColor(R.color.primary));
+                    dm.setVisibility(View.GONE);
                 }
             }
 

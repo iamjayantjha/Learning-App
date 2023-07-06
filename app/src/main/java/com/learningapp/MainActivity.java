@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
             add.setOnClickListener(v -> {
-                Intent post = new Intent(MainActivity.this, PostActivity.class);
+                Intent post = new Intent(MainActivity.this, PostContentActivity.class);
                 startActivity(post);
                 overridePendingTransition(R.anim.no_animation,R.anim.slide_up);
             });

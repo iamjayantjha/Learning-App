@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Gradient Bg for the chat item -->
+    <gradient
+        android:angle="45"
+        android:endColor="#C13584"
+        android:startColor="#833AB4"
+        android:type="linear" />
+    <!-- Rounded Corners -->
+    <corners android:topLeftRadius="30dp"
+        android:topRightRadius="30dp"
+        android:bottomLeftRadius="30dp"
+        android:bottomRightRadius="0dp"/>
+
+</shape>
